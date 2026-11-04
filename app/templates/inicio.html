@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Panel - MediControl{% endblock %}
+{% block titulo %}Panel de control{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card stat-card"><div class="card-body d-flex align-items-center gap-3">
+            <div class="stat-icon bg-primary"><i class="bi bi-person-badge"></i></div>
+            <div><div class="valor">{{ total_medicos }}</div><div class="text-muted">Médicos</div></div>
+        </div></div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card"><div class="card-body d-flex align-items-center gap-3">
+            <div class="stat-icon bg-success"><i class="bi bi-people"></i></div>
+            <div><div class="valor">{{ total_pacientes }}</div><div class="text-muted">Pacientes</div></div>
+        </div></div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card"><div class="card-body d-flex align-items-center gap-3">
+            <div class="stat-icon" style="background:#6f42c1;"><i class="bi bi-calendar2-check"></i></div>
+            <div><div class="valor">{{ total_citas }}</div><div class="text-muted">Citas</div></div>
+        </div></div>
+    </div>
+</div>
+
+<div id="carruselPanel" class="carousel slide mb-4" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="slide-bg slide-1"></div>
+            <div class="carousel-caption"><h5>Médicos</h5></div>
+        </div>
+        <div class="carousel-item">
+            <div class="slide-bg slide-2"></div>
+            <div class="carousel-caption"><h5>Pacientes</h5></div>
+        </div>
+        <div class="carousel-item">
+            <div class="slide-bg slide-3"></div>
+            <div class="carousel-caption"><h5>Citas</h5></div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carruselPanel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span><span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carruselPanel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span><span class="visually-hidden">Siguiente</span>
+    </button>
+</div>
+
+<div class="card panel">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        Citas recientes
+        <a href="{{ url_for('citas.crear') }}" class="btn btn-sm btn-primary"><i class="bi bi-plus-lg"></i> Nueva cita</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead><tr><th>Fecha</th><th>Hora</th><th>Médico</th><th>Paciente</th></tr></thead>
+            <tbody>
+            {% for c in citas %}
+                <tr>
+                    <td>{{ c.fecha.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ c.hora.strftime('%H:%M') }}</td>
+                    <td>{{ c.medico.nombre }}</td>
+                    <td>{{ c.paciente.nombre }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="4" class="text-center text-muted">Sin citas</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
